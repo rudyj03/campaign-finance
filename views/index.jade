@@ -1,0 +1,20 @@
+extends layout
+
+block body
+	div
+		h2 Politicians Be Makin' Money
+			div(ng-controller="IndexCtrl")
+				p {{selectedState.Name}}
+				select(ng-model="selectedState", ng-options="state.name for state in states", ng-change="stateChanged()")
+				p You got {{count}} candidates yo!
+				ul(ng-repeat="holder in candidates")
+					li {{holder.candidate.name}}
+					
+	div(ng-view)
+    
+	script(src='js/lib/angular/angular.js')
+	script(src='js/app.js')
+	script(src='js/services.js')
+	script(src='js/controllers.js')
+	script(src='js/filters.js')
+	script(src='js/directives.js')
