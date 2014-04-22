@@ -73,9 +73,6 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 		"name": "Maine",
 		"abbreviation": "ME"
 	}, {
-		"name": "Marshall Islands",
-		"abbreviation": "MH"
-	}, {
 		"name": "Maryland",
 		"abbreviation": "MD"
 	}, {
@@ -133,14 +130,8 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 		"name": "Oregon",
 		"abbreviation": "OR"
 	}, {
-		"name": "Palau",
-		"abbreviation": "PW"
-	}, {
 		"name": "Pennsylvania",
 		"abbreviation": "PA"
-	}, {
-		"name": "Puerto Rico",
-		"abbreviation": "PR"
 	}, {
 		"name": "Rhode Island",
 		"abbreviation": "RI"
@@ -190,6 +181,21 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 		success(function(data, status, headers, config) {
 			$scope.candidates = data.results;
 			$scope.count = data.num_results;
+		}).
+		error(function(data, status, headers, config) {
+			$scope.name = 'Error!';
+		});
+	};
+	
+	$scope.getDetails = function(candidateId){
+		console.log("Candidate Id " + candidateId);
+		$http({
+			method: 'GET',
+			url: 'api/candidates/details/' + candidateId
+		}).
+		success(function(data, status, headers, config) {
+			$scope.details = data.results[0];
+			//TODO: Show popup with details of candidates finances
 		}).
 		error(function(data, status, headers, config) {
 			$scope.name = 'Error!';

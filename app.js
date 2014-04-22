@@ -19,7 +19,7 @@ var app = module.exports = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -48,6 +48,7 @@ app.get('/partials/:name', routes.partials);
 // JSON API
 app.get('/api/candidates', api.getCandidates);
 app.get('/api/candidates/:state', api.getCandidates);
+app.get('/api/candidates/details/:candidateId', api.getCandidateDetails);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
