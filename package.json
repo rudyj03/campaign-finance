@@ -1,9 +1,27 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
-  "private": true,
+  "name": "campaign-finance",
+  "version": "0.0.0",
+  "description": "test app using NY Times API",
+  "main": "app.js",
   "dependencies": {
+    "angular": "~1.2.16",
+    "bootstrap": "~0.0.2",
+    "async": "~0.8.0",
     "express": "~3.2.6",
     "jade": "~0.31.2"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rudyj03/campaign-finance.git"
+  },
+  "author": "rudy j",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rudyj03/campaign-finance/issues"
+  },
+  "homepage": "https://github.com/rudyj03/campaign-finance"
 }
