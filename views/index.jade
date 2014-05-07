@@ -1,15 +1,17 @@
 extends layout
 
 block body
-	div(class="jumbotron")
+	div.jumbotron
 		h2 Political contributions by candidate
-	div(class="container theme-showcase", role="main")
-		div(class="page-header", ng-controller="IndexCtrl")
+	div(class="container theme-showcase", role="main", ng-controller="IndexCtrl")
+		
+		div.page-header
+			p Select a state:
 			select(ng-model="selectedState", ng-options="state.name for state in states", ng-change="stateChanged()")
+		div(ng-show="selectedState")
 			p {{selectedState.name}} has {{count}} congressional candidates:
-			ul(ng-repeat="holder in candidates")
-				li(ng-mouseover="getDetails(holder.candidate.id)") {{holder.candidate.name}}
-					
+			div.gridStyle(ng-grid="gridOptions")
+			
 	div(ng-view)
     
 	script(src='js/lib/angular/angular.js')
@@ -20,3 +22,4 @@ block body
 	script(src='js/directives.js')
 	script(src='js/jquery.min.js')
 	script(src='js/bootstrap.min.js')
+	script(src='js/ng-grid-2.0.7.min.js')

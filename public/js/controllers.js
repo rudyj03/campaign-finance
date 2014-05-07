@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var campaignFinanceApp = angular.module('campaignFinanceApp', []);
+var campaignFinanceApp = angular.module('campaignFinanceApp', ['ngGrid']);
 
 campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 
@@ -172,15 +172,27 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 		"name": "Wyoming",
 		"abbreviation": "WY"
 	}];
-
+			     
+      $scope.gridOptions = { data: 'data', 
+	
+					columnDefs: [
+							{field: 'candidate.name', displayName: 'Name'},
+							{field: 'candidate.party', displayName: 'Party'}						
+							],
+						
+					multiSelect:false
+				
+				   };
+	
 	$scope.stateChanged = function() {
 		$http({
 			method: 'GET',
 			url: 'api/candidates/' + $scope.selectedState.abbreviation
 		}).
 		success(function(data, status, headers, config) {
-			$scope.candidates = data.results;
+			$scope.data = getData(data.results);
 			$scope.count = data.num_results;
+			
 		}).
 		error(function(data, status, headers, config) {
 			$scope.name = 'Error!';
@@ -195,7 +207,6 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 		}).
 		success(function(data, status, headers, config) {
 			$scope.details = data.results[0];
-			//TODO: Show popup with details of candidates finances
 		}).
 		error(function(data, status, headers, config) {
 			$scope.name = 'Error!';
@@ -203,6 +214,10 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 	};
 
 });
+
+var getData = function(candidatesInfo){
+	return candidatesInfo;
+}
 
 campaignFinanceApp.controller('StateCandidatesCtrl', function($scope, $http, $routeParams) {
 	$http({

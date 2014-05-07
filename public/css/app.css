@@ -28,3 +28,19 @@
   content: "";
   padding: 0;
 }
+
+.rep {
+	color:red;
+}
+.dem {
+	color:blue;
+}
+
+.cellText{
+	font-weight:bold;
+}
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 1200px; 
+    height: 600px
+}
