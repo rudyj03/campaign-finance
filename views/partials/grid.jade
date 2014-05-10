@@ -1,0 +1,6 @@
+div.page-header
+	p Select a state:
+	select(ng-model="selectedState", ng-options="state.name for state in states", ng-change="stateChanged()")
+div(ng-show="selectedState")
+	p {{selectedState.name}} has {{count}} congressional candidates:
+	div.gridStyle(ng-grid="gridOptions")
