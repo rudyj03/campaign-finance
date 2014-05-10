@@ -2,10 +2,10 @@
 
 /* Controllers */
 
-var campaignFinanceApp = angular.module('campaignFinanceApp', ['ngGrid']);
+var campaignFinanceApp = angular.module('campaignFinanceApp', ['ngGrid', 'ui.router', 'ngAnimate']);
 
-campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
-
+campaignFinanceApp.controller('IndexCtrl', function($scope, $http, $location) {
+	
 	$scope.states = [{
 		"name": "Alabama",
 		"abbreviation": "AL"
@@ -176,7 +176,8 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
       $scope.gridOptions = { data: 'data', 
 	
 					columnDefs: [
-							{field: 'candidate.name', displayName: 'Name'},
+							{field: 'candidate.name', displayName: 'Name',
+							 cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a ui-sref="details({id: row.entity.candidate.id})">{{row.getProperty(col.field)}}</a></div>'},
 							{field: 'candidate.party', displayName: 'Party'}						
 							],
 						
@@ -190,23 +191,9 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 			url: 'api/candidates/' + $scope.selectedState.abbreviation
 		}).
 		success(function(data, status, headers, config) {
-			$scope.data = getData(data.results);
+			$scope.data = data.results;
 			$scope.count = data.num_results;
 			
-		}).
-		error(function(data, status, headers, config) {
-			$scope.name = 'Error!';
-		});
-	};
-	
-	$scope.getDetails = function(candidateId){
-		console.log("Candidate Id " + candidateId);
-		$http({
-			method: 'GET',
-			url: 'api/candidates/details/' + candidateId
-		}).
-		success(function(data, status, headers, config) {
-			$scope.details = data.results[0];
 		}).
 		error(function(data, status, headers, config) {
 			$scope.name = 'Error!';
@@ -215,17 +202,30 @@ campaignFinanceApp.controller('IndexCtrl', function($scope, $http) {
 
 });
 
-var getData = function(candidatesInfo){
-	return candidatesInfo;
-}
-
-campaignFinanceApp.controller('StateCandidatesCtrl', function($scope, $http, $routeParams) {
+campaignFinanceApp.controller('StateCandidatesCtrl', function($scope, $http, $stateParams) {
+	
 	$http({
 		method: 'GET',
-		url: 'api/candidates/' + $routeParams.state
+		url: 'api/candidates/details/' + $stateParams.id
 	}).
 	success(function(data, status, headers, config) {
-		$scope.candidates = data.results;
-		$scope.count = data.num_results;
+		$scope.details = data.results;
 	});
+});
+
+campaignFinanceApp.config(function ($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/index');
+  
+  $stateProvider
+      .state('index', {
+        url: "/index",
+        templateUrl: "/partials/grid.jade",
+	  controller: 'IndexCtrl'
+      })
+	.state('details', {
+	      url: "/candidates/details/:id",
+	      templateUrl: "/partials/partial1.jade",
+	      controller: 'StateCandidatesCtrl'
+	    })
 });
